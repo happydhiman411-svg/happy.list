@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🏠 घर का सामान — Premium List</title>
+<meta name="theme-color" content="#1a0b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="घर का सामान">
+<link rel="manifest" href='data:application/manifest+json,{"name":"घर का सामान","short_name":"सामान","start_url":".","display":"standalone","background_color":"%231a0b2e","theme_color":"%23f6d365"}'>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100%; }
+  body { font-family: 'Poppins', 'Nirmala UI', Arial, sans-serif; color: #eaeaf0; background: linear-gradient(-45deg,#1a0b2e,#241142,#0f2b4a,#0b3d4a,#2a0f45); background-size: 400% 400%; animation: bgShift 22s ease infinite; padding: 20px 16px 40px; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+  body.theme-light { background: linear-gradient(-45deg,#f5e6d3,#faf3e8,#d9f0f5,#eaf5e8) !important; color: #2a1a40; }
+  body.theme-vintage { background: linear-gradient(-45deg,#3d2817,#5c3d21,#7a5230,#4a3420) !important; color: #f5e6c8; }
+  @keyframes bgShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+
+  .float-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .float-bg span { position: absolute; animation-timing-function: linear; animation-iteration-count: infinite; will-change: transform; user-select: none; }
+  @keyframes floatAround { 0%{transform:translate(0,0) rotate(0)} 25%{transform:translate(30px,-40px) rotate(90deg)} 50%{transform:translate(-20px,-80px) rotate(180deg)} 75%{transform:translate(-40px,-30px) rotate(270deg)} 100%{transform:translate(0,0) rotate(360deg)} }
+  @keyframes driftAcross { 0%{transform:translate(-8vw,0) rotate(0);opacity:0} 10%{opacity:1} 50%{transform:translate(50vw,-40px) rotate(180deg)} 90%{opacity:1} 100%{transform:translate(110vw,-20px) rotate(360deg);opacity:0} }
+
+  #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg,#1a0b2e,#241142,#0f2b4a); background-size: 400% 400%; animation: bgShift 3s ease infinite; transition: opacity 0.6s, visibility 0.6s; }
+  #splash.hide { opacity: 0; visibility: hidden; }
+  .splash-logo { font-family: 'Tiro Devanagari Hindi', serif; font-size: 44px; font-weight: 700; background: linear-gradient(135deg,#f6d365,#fda085,#f6d365); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; text-align: center; }
+  @keyframes shine { to { background-position: 200% center; } }
+  .splash-sub { text-align: center; color: #b8a4d9; margin-top: 12px; font-size: 13px; letter-spacing: 2px; }
+
+  .wrap { max-width: 980px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .ram-ram { font-family: 'Tiro Devanagari Hindi', serif; font-size: 32px; font-weight: 700; text-align: center; margin: 4px 0 14px; background: linear-gradient(135deg,#f6d365,#fda085,#ffd89b,#f6d365); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 4s linear infinite; letter-spacing: 4px; }
+  .ram-ram::before, .ram-ram::after { content: '❁'; font-size: 18px; margin: 0 16px; vertical-align: middle; -webkit-text-fill-color: #f6d365; opacity: 0.7; }
+
+  .header { text-align: center; padding: 24px 16px 20px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin-bottom: 16px; }
+  body.theme-light .header { background: rgba(255,255,255,0.6); }
+  .header .icon-top { font-size: 42px; display: inline-block; margin-bottom: 6px; animation: gentleBob 3s ease-in-out infinite; filter: drop-shadow(0 6px 20px rgba(246,211,101,0.5)); }
+  @keyframes gentleBob { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-6px) rotate(2deg)} }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 30px; margin: 0; background: linear-gradient(135deg,#f6d365,#fda085,#f6d365); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 4s linear infinite; line-height: 1.3; }
+
+  .search-bar { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 6px 12px; margin-bottom: 10px; }
+  body.theme-light .search-bar { background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.1); }
+  .search-bar:focus-within { border-color: #f6d365; box-shadow: 0 0 0 3px rgba(246,211,101,0.15); }
+  .search-bar input { flex: 1; min-width: 0; background: transparent; border: none; outline: none; font-family: 'Poppins', sans-serif; font-size: 14px; color: inherit; padding: 6px 0; }
+  .search-bar input::placeholder { color: rgba(200,190,220,0.5); }
+  .search-clear { background: transparent; border: none; color: inherit; cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 6px; opacity: 0.6; box-shadow: none; }
+
+  .toolbar { position: sticky; top: 10px; z-index: 50; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; padding: 12px; background: rgba(20,15,40,0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); margin-bottom: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+  body.theme-light .toolbar { background: rgba(255,255,255,0.85); }
+
+  .tb-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 70px; font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 600; border: none; border-radius: 12px; cursor: pointer; color: #2a0f45; position: relative; overflow: hidden; background: linear-gradient(135deg,#f6d365,#fda085); box-shadow: 0 6px 20px rgba(246,211,101,0.35); transition: transform 0.2s, box-shadow 0.25s; }
+  .tb-btn .tb-icon { font-size: 20px; line-height: 1; }
+  .tb-btn .tb-label { font-size: 10px; line-height: 1.15; font-weight: 700; letter-spacing: 0.2px; text-align: center; }
+  .tb-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(246,211,101,0.5); }
+  .tb-btn:active { transform: translateY(0) scale(0.97); }
+  .tb-btn.ghost { background: rgba(255,255,255,0.08); color: #eaeaf0; border: 1px solid rgba(255,255,255,0.18); box-shadow: none; }
+  body.theme-light .tb-btn.ghost { background: rgba(0,0,0,0.05); color: #2a1a40; border-color: rgba(0,0,0,0.1); }
+  .tb-btn.green { background: linear-gradient(135deg,#43e97b,#38f9d7); color: #08322b; }
+
+  .stat { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 8px 12px; font-size: 13px; font-weight: 500; color: #d8d0e6; }
+  body.theme-light .stat { background: rgba(0,0,0,0.04); color: #2a1a40; }
+  .stat .num { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #f6d365; }
+  .progress-track { flex: 1; min-width: 80px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden; }
+  body.theme-light .progress-track { background: rgba(0,0,0,0.08); }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#f6d365,#fda085,#ff6a88); transition: width 0.5s; }
+
+  .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.6); transform: scale(0); animation: rippleAnim 0.65s ease-out; pointer-events: none; }
+  @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+  .cat { background: linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; margin-bottom: 14px; overflow: hidden; backdrop-filter: blur(14px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); animation: cardIn 0.5s cubic-bezier(.2,.9,.3,1.15) both; }
+  body.theme-light .cat { background: rgba(255,255,255,0.85); }
+  @keyframes cardIn { from{opacity:0;transform:translateY(20px) scale(0.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+  .cat h2 { font-size: 15px; font-weight: 600; margin: 0; padding: 12px 16px; background: linear-gradient(90deg, rgba(246,211,101,0.12), rgba(253,160,133,0.08)); border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; gap: 10px; color: #f6d365; cursor: pointer; user-select: none; }
+  body.theme-light .cat h2 { background: linear-gradient(90deg, rgba(246,211,101,0.2), rgba(253,160,133,0.12)); color: #7a5b00; }
+  .cat h2 .cat-title { flex: 1; display: flex; align-items: center; gap: 8px; }
+  .cat h2 .chev { font-size: 12px; transition: transform 0.3s; }
+  .cat.collapsed .chev { transform: rotate(-90deg); }
+  .cat.collapsed .items { display: none; }
+  .cat-badge { font-size: 11px; font-weight: 600; color: #cbb7e2; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); padding: 2px 8px; border-radius: 10px; }
+  body.theme-light .cat-badge { color: #7a5b00; background: rgba(0,0,0,0.05); }
+  .cat-badge.complete { color: #08322b; background: linear-gradient(135deg,#43e97b,#38f9d7); border-color: transparent; }
+  .cat-check { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; color: #cbb7e2; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 4px 9px; cursor: pointer; user-select: none; text-transform: uppercase; letter-spacing: 1px; }
+  body.theme-light .cat-check { color: #7a5b00; background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.1); }
+  .cat-check input { margin: 0; }
+
+  .items { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 3px 16px; padding: 12px 16px 14px; }
+  .item-row { display: flex; align-items: center; gap: 2px; border-radius: 8px; position: relative; transition: background 0.2s; }
+  .item-row:hover { background: rgba(255,255,255,0.05); }
+  .item-row .item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; padding: 6px 2px; cursor: pointer; flex: 1; min-width: 0; }
+  .item-row .item input { margin-top: 2px; }
+  .item-row .item span { transition: color 0.25s, opacity 0.25s; line-height: 1.35; }
+  .item-row .item .hi { font-weight: 500; }
+  .item-row .item .en { opacity: 0.65; font-weight: 400; font-size: 12.5px; }
+  .item-row.done span { color: #6f6579; opacity: 0.7; }
+  .star-btn { background: transparent; border: none; color: rgba(255,255,255,0.25); font-size: 16px; cursor: pointer; padding: 4px; border-radius: 6px; box-shadow: none; min-width: 26px; flex-shrink: 0; }
+  body.theme-light .star-btn { color: rgba(0,0,0,0.2); }
+  .star-btn.starred { color: #f6d365; text-shadow: 0 0 10px rgba(246,211,101,0.6); }
+
+  input[type=checkbox] { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; flex-shrink: 0; border: 2px solid rgba(255,255,255,0.35); border-radius: 6px; background: rgba(255,255,255,0.05); cursor: pointer; position: relative; transition: all 0.25s; }
+  body.theme-light input[type=checkbox] { border-color: rgba(0,0,0,0.25); }
+  input[type=checkbox]:checked { background: linear-gradient(135deg,#f6d365,#fda085); border-color: #f6d365; box-shadow: 0 0 12px rgba(246,211,101,0.6); animation: checkPop 0.35s cubic-bezier(.4,0,.2,1.5); }
+  input[type=checkbox]:checked::after { content: ''; position: absolute; top: 0px; left: 5px; width: 6px; height: 11px; border: solid #2a0f45; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+  input[type=checkbox]:indeterminate { background: rgba(246,211,101,0.3); border-color: #f6d365; }
+  input[type=checkbox]:indeterminate::after { content: ''; position: absolute; top: 50%; left: 50%; width: 10px; height: 2.5px; background: #f6d365; border-radius: 2px; transform: translate(-50%, -50%); }
+  @keyframes checkPop { 0%{transform:scale(0.85)} 60%{transform:scale(1.12)} 100%{transform:scale(1)} }
+
+  .favorites-cat { border: 2px solid rgba(246,211,101,0.4) !important; }
+  .favorites-cat h2 { background: linear-gradient(90deg, rgba(246,211,101,0.25), rgba(253,160,133,0.15)) !important; }
+
+  .btn-x { background: rgba(255,80,80,0.2); color: #ff8a8a; border: 1px solid rgba(255,138,138,0.3); font-size: 12px; padding: 5px 10px; border-radius: 6px; cursor: pointer; flex-shrink: 0; font-family: inherit; }
+  .btn-add { background: linear-gradient(135deg,#43e97b,#38f9d7); color: #08322b; font-size: 12px; padding: 7px 12px; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; font-family: inherit; }
+
+  #toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg,#f6d365,#fda085); color: #2a0f45; padding: 10px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; box-shadow: 0 10px 30px rgba(246,211,101,0.5); z-index: 9800; opacity: 0; transition: all 0.4s cubic-bezier(.4,0,.2,1); pointer-events: none; font-family: 'Poppins', sans-serif; }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  #printArea { display: none; }
+  #scrollTop { position: fixed; bottom: 24px; right: 24px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg,#f6d365,#fda085); color: #2a0f45; font-size: 22px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(246,211,101,0.5); z-index: 500; opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.35s; padding: 0; }
+  #scrollTop.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  .sparkle { position: fixed; width: 8px; height: 8px; background: radial-gradient(circle,#f6d365,transparent); border-radius: 50%; pointer-events: none; z-index: 9997; animation: sparkleOut 0.8s ease-out forwards; }
+  @keyframes sparkleOut { from{transform:translate(0,0) scale(1);opacity:1} to{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0} }
+  .confetti { position: fixed; top: -14px; width: 8px; height: 14px; z-index: 9998; pointer-events: none; border-radius: 2px; animation: confettiFall linear forwards; }
+  @keyframes confettiFall { 0%{transform:translateY(0) rotate(0);opacity:1} 100%{transform:translateY(105vh) rotate(720deg);opacity:0} }
+
+  /* QR Modal */
+  #qrModal { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 9600; display: none; align-items: center; justify-content: center; padding: 20px; }
+  #qrModal.show { display: flex; }
+  #qrModal .qr-box { background: #fff; border-radius: 20px; padding: 24px; text-align: center; max-width: 400px; width: 100%; }
+  #qrModal h4 { margin: 0 0 16px; color: #2a1a40; font-size: 16px; }
+  #qrModal img { max-width: 100%; border-radius: 10px; }
+
+  /* Quantity Modal */
+  #qtyModal { position: fixed; inset: 0; background: rgba(0,0,0,0.82); backdrop-filter: blur(8px); z-index: 9550; display: none; padding: 20px; overflow-y: auto; }
+  #qtyModal.show { display: block; }
+  .qty-box { max-width: 750px; margin: 0 auto; background: linear-gradient(160deg,#241142,#1a0b2e); border: 2px solid rgba(246,211,101,0.35); border-radius: 20px; padding: 20px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); color: #eaeaf0; animation: cardIn 0.4s cubic-bezier(.2,.9,.3,1.15); }
+  body.theme-light .qty-box { background: linear-gradient(160deg,#faf3e8,#f5e6d3); color: #2a1a40; }
+  .qty-box h2 { font-family: 'Playfair Display', serif; font-size: 22px; margin: 0 0 6px; color: #f6d365; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  body.theme-light .qty-box h2 { color: #7a5b00; }
+  .qty-note { font-size: 12px; color: #b8a4d9; margin: 0 0 14px; }
+  body.theme-light .qty-note { color: #7a5b00; }
+  #qtyList { margin-bottom: 14px; }
+  
+  .qty-row { display: flex; flex-direction: column; gap: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; }
+  body.theme-light .qty-row { background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.08); }
+  .qty-row-top { display: flex; align-items: center; gap: 8px; }
+  .qty-num { font-size: 12px; color: #f6d365; font-weight: 700; width: 24px; text-align: right; flex-shrink: 0; }
+  body.theme-light .qty-num { color: #7a5b00; }
+  .qty-name { flex: 1; min-width: 0; font-size: 13.5px; line-height: 1.35; }
+  .qty-name .hi { font-weight: 500; }
+  .qty-name .en { opacity: 0.65; font-size: 12px; }
+  
+  .unit-btns { display: flex; flex-wrap: wrap; gap: 6px; margin-left: 32px; }
+  .unit-btn { padding: 5px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #cbb7e2; font-size: 12px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s; }
+  body.theme-light .unit-btn { border-color: rgba(0,0,0,0.15); background: rgba(0,0,0,0.04); color: #666; }
+  .unit-btn.active { background: linear-gradient(135deg,#f6d365,#fda085); color: #2a0f45; border-color: #f6d365; font-weight: 700; box-shadow: 0 2px 8px rgba(246,211,101,0.4); }
+  
+  .qty-bottom { display: flex; align-items: center; gap: 10px; margin-left: 32px; flex-wrap: wrap; }
+  .qty-input { width: 80px; padding: 8px 10px; font-family: 'Poppins', inherit; font-size: 14px; font-weight: 600; border: 1.5px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: inherit; border-radius: 8px; flex-shrink: 0; text-align: center; }
+  .qty-input:focus { outline: none; border-color: #f6d365; background: rgba(246,211,101,0.12); box-shadow: 0 0 0 3px rgba(246,211,101,0.18); }
+  .qty-input::placeholder { color: rgba(200,190,220,0.4); }
+  body.theme-light .qty-input { background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.15); color: #2a1a40; }
+  
+  .quick-qty { display: flex; flex-wrap: wrap; gap: 6px; }
+  .qty-pill { padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Poppins', sans-serif; }
+  .qty-pill:hover { background: rgba(255,255,255,0.15); border-color: #f6d365; }
+  .qty-pill.active { background: rgba(246,211,101,0.25); border-color: #f6d365; color: #f6d365; font-weight: 700; }
+  body.theme-light .qty-pill { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.04); }
+  body.theme-light .qty-pill.active { background: rgba(246,211,101,0.4); color: #7a5b00; }
+  
+  .qty-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; justify-content: center; padding-top: 14px; border-top: 1px dashed rgba(246,211,101,0.3); }
+  .qty-actions .tb-btn { flex: 0 0 auto; }
+
+  @media (max-width: 600px) {
+    .ram-ram { font-size: 26px; letter-spacing: 3px; }
+    .header h1 { font-size: 22px; }
+    .items { grid-template-columns: 1fr; }
+    .tb-btn { min-width: 58px; padding: 6px 7px; }
+    .tb-btn .tb-icon { font-size: 17px; }
+    .tb-btn .tb-label { font-size: 9px; }
+    .unit-btns, .qty-bottom { margin-left: 0; }
+    .qty-input { flex: 1; }
+  }
+
+  @media print {
+    @page { size: A4; margin: 10mm; }
+    body { background: #fff !important; padding: 0 !important; color: #000 !important; animation: none !important; }
+    .wrap { max-width: none; }
+    .toolbar, .header, .ram-ram, #list, .float-bg, #splash, .confetti, .sparkle, #scrollTop, .search-bar, #qrModal, #toast, #editPanel, #qtyModal { display: none !important; }
+    #printArea { display: block !important; color: #000 !important; }
+    #printArea .p-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: bold; text-align: center; margin: 0 0 4px; padding-bottom: 6px; border-bottom: 2px solid #333; color: #000; }
+    #printArea .p-date { font-size: 10px; text-align: right; margin: 0 0 10px; color: #444; }
+    #printArea ol { margin: 0; padding-left: 22px; column-count: 3; column-gap: 18px; }
+    #printArea li { font-size: 11.5px; line-height: 1.4; padding: 1px 0; break-inside: avoid; color: #000; }
+  }
+</style>
+</head>
+<body>
+<div class="float-bg" id="floatBg"></div>
+<div id="splash"><div><div class="splash-logo">🙏 राम राम 🙏</div><div class="splash-sub">PREMIUM SHOPPING LIST</div></div></div>
+
+<div class="wrap">
+  <div class="ram-ram">राम राम</div>
+  <div class="header"><div class="icon-top">🏠</div><h1>घर की राशन एवं घरेलू सामान लिस्ट</h1></div>
+
+  <div class="search-bar">
+    <span>🔍</span>
+    <input type="text" id="searchInput" placeholder="हिंदी या English में खोजें — जैसे: हल्दी / haldi">
+    <button class="search-clear" id="searchClear" style="display:none;">✕</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="stat"><span class="num" id="doneNum">0</span><span>/ <span id="totalNum">0</span></span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <button class="tb-btn" id="btnPrint" title="Print / PDF"><span class="tb-icon">🖨️</span><span class="tb-label">प्रिंट<br>PDF</span></button>
+    <button class="tb-btn ghost" id="btnReset" title="Reset"><span class="tb-icon">🔄</span><span class="tb-label">सभी<br>अनटिक</span></button>
+    <button class="tb-btn ghost" id="soundToggle" title="Sound"><span class="tb-icon" id="soundIcon">🔊</span><span class="tb-label">Sound<br>On/Off</span></button>
+    <button class="tb-btn ghost" id="themeToggle" title="Theme"><span class="tb-icon" id="themeIcon">🌙</span><span class="tb-label">Theme<br>बदलें</span></button>
+  </div>
+
+  <div id="editPanel" style="display:none;background:linear-gradient(135deg,rgba(246,211,101,0.1),rgba(253,160,133,0.06));border:2px solid rgba(246,211,101,0.35);border-radius:18px;padding:18px;margin-bottom:18px;">
+    <h3 style="font-size:15px;color:#f6d365;margin:0 0 14px;display:flex;justify-content:space-between;align-items:center;">✏️ एडिट / सुधार करें <button class="btn-x" id="btnCloseEdit">✖ बंद</button></h3>
+    <div id="editList"></div>
+    <div style="display:flex;gap:8px;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(246,211,101,0.3);flex-wrap:wrap;">
+      <input type="text" id="newItemInput" placeholder="नया सामान..." style="flex:1;min-width:140px;padding:10px 14px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:inherit;border-radius:10px;font-family:inherit;font-size:13.5px;">
+      <button class="btn-add" id="btnAddItem">+ जोड़ें</button>
+    </div>
+    <div style="margin-top:14px;"><button class="tb-btn" id="btnPrintFromEdit"><span class="tb-icon">🖨️</span><span class="tb-label">इस लिस्ट को<br>Print करें</span></button></div>
+  </div>
+
+  <div id="list"></div>
+
+  <div id="printArea"><div class="p-title">खरीदारी सूची</div><div class="p-date" id="pDate"></div><ol id="printList"></ol></div>
+</div>
+
+<button id="scrollTop">↑</button>
+<div id="toast"></div>
+
+<!-- QR Modal -->
+<div id="qrModal"><div class="qr-box"><h4>🔲 खरीदारी सूची — QR Code</h4><img id="qrImage" alt="QR"><div style="margin-top:16px;"><button class="btn-add" onclick="document.getElementById('qrModal').classList.remove('show')">बंद करें</button></div></div></div>
+
+<!-- Quantity Modal -->
+<div id="qtyModal">
+  <div class="qty-box">
+    <h2>📝 मात्रा भरें <button class="btn-x" id="btnCloseQty">✖ बंद करें</button></h2>
+    <p class="qty-note">पहले यूनिट (KG, GM, Nos आदि) चुनें, फिर मात्रा के बटन दबाएं या खुद लिखें</p>
+    <div id="qtyList"></div>
+    <div class="qty-actions">
+      <button class="tb-btn green" id="btnQtyPrint"><span class="tb-icon">🖨️</span><span class="tb-label">Print / PDF</span></button>
+      <button class="tb-btn green" id="btnQtyShare"><span class="tb-icon">📱</span><span class="tb-label">WhatsApp</span></button>
+      <button class="tb-btn green" id="btnQtyQR"><span class="tb-icon">🔲</span><span class="tb-label">QR Code</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Service Worker for PWA (Will work only on HTTPS, but registering it via Blob helps some browsers recognize it as PWA-ready)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      const swCode = "self.addEventListener('install', (e) => { self.skipWaiting(); }); self.addEventListener('activate', (e) => { self.clients.claim(); }); self.addEventListener('fetch', (e) => { e.respondWith(fetch(e.request).catch(() => new Response('Offline'))); });";
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl).catch(function(err) {
+        console.log('Service Worker registration skipped (normal for local files):', err);
+      });
+    });
+  }
+
+  var data = {
+    "1. आटा, अनाज और सूखा राशन": [
+      ["मल्टीग्रेन आटा","multigrain ata"],["मक्की का आटा","makki ka ata"],["गेहूं का आटा","gehun ka ata"],
+      ["बेसन","besan"],["सूजी","suji"],["ओट्स","oats"],["सिंघाड़े का आटा","singhade ka ata"],
+      ["साधारण चावल","sadharan chawal"],["बासमती चावल","basmati chawal"],["मैदा","maida"],
+      ["दलिया","daliya"],["पोहा","poha"],["कुट्टू का आटा","kuttu ka ata"],["कॉर्न फ्लोर","corn flour"]
+    ],
+    "2. दालें और फलियां": [
+      ["अरहर दाल","arhar dal"],["मूंग छिलका दाल","moong chilka dal"],["मूंग धुली दाल","moong dhuli dal"],
+      ["साबुत मूंग","sabut moong"],["काली मसूर","kali masoor"],["लाल मसूर दाल","lal masoor dal"],
+      ["मसूर छिलका दाल","masoor chilka dal"],["उड़द धुली दाल","urad dhuli dal"],["उड़द छिलका दाल","urad chilka dal"],
+      ["साबुत उड़द","sabut urad"],["मिक्स दाल","mix dal"],["सफेद काबुली चना","safed kabuli chana"],
+      ["काला चना","kala chana"],["राजमा लाल","rajma lal"],["राजमा चित्रा","rajma chitra"],
+      ["सूखे हरे मटर","sookhe hare matar"],["सोयाबीन बड़ी","soyabean badi"]
+    ],
+    "3. तेल, घी और मक्खन": [
+      ["सरसों का तेल","sarson ka tel"],["सूरजमुखी तेल","surajmukhi tel"],["रिफाइंड तेल","refined tel"],
+      ["नारियल तेल (खाने वाला)","nariyal tel"],["तिल का तेल","til ka tel"],["मूंगफली का तेल","moongfali ka tel"],
+      ["देसी गाय का घी","desi gay ka ghee"],["देसी भैंस का घी","desi bhains ka ghee"],["देसी घी","desi ghee"],
+      ["सफेद मक्खन","safed makkhan"],["मक्खन","makkhan"]
+    ],
+    "4. नमक और मीठा": [
+      ["साधारण नमक","sadharan namak"],["आयोडीन नमक","iodine namak"],["सेंधा नमक","sendha namak"],
+      ["काला नमक","kala namak"],["चीनी","cheeni"],["खांड","khand"],["बूरा","bura"],["गुड़","gud"],["मिश्री","mishri"]
+    ],
+    "5. मसाले – पाउडर और तैयार मसाले": [
+      ["हल्दी पाउडर","haldi powder"],["लाल मिर्च पाउडर","lal mirch powder"],["कश्मीरी मिर्च","kashmiri mirch"],
+      ["धनिया पाउडर","dhaniya powder"],["जीरा पाउडर","jeera powder"],["काली मिर्च पाउडर","kali mirch powder"],
+      ["अमचूर","amchoor"],["गरम मसाला","garam masala"],["चाट मसाला","chaat masala"],
+      ["सब्जी मसाला","sabzi masala"],["राजमा मसाला","rajma masala"],["दाल मखनी मसाला","dal makhani masala"],
+      ["बिरयानी मसाला","biryani masala"],["चाय मसाला","chai masala"],["सांभर मसाला","sambhar masala"],
+      ["पाव भाजी मसाला","pav bhaji masala"],["पनीर मसाला","paneer masala"],["छोले मसाला","chole masala"],
+      ["किचन किंग मसाला","kitchen king masala"],["कसूरी मेथी","kasuri methi"],["हींग","hing"]
+    ],
+    "6. साबुत मसाले": [
+      ["जीरा साबुत","jeera sabut"],["शाही जीरा","shahi jeera"],["धनिया साबुत","dhaniya sabut"],
+      ["राई","rai"],["अजवाइन","ajwain"],["मेथी दाना","methi dana"],["सौंफ","saunf"],
+      ["काली मिर्च साबुत","kali mirch sabut"],["लौंग","laung"],["छोटी इलायची","chhoti elaichi"],
+      ["बड़ी इलायची","badi elaichi"],["दालचीनी","dalchini"],["तेजपत्ता","tej patta"],
+      ["जावित्री","javitri"],["जायफल","jayfal"],["सूखी लाल मिर्च","sookhi lal mirch"],
+      ["कलौंजी","kalonji"],["तिल","til"],["खसखस","khaskhas"],["अनारदाना","anardana"],
+      ["चक्र फूल","chakrafool"],["सोंठ","sonth"],["इमली","imli"]
+    ],
+    "7. बेकिंग और कुकिंग सामग्री": [
+      ["बेकिंग सोडा","baking soda"],["बेकिंग पाउडर","baking powder"],["ईनो","eno"],
+      ["सिरका","sirka"],["कॉर्न फ्लोर","corn flour"],["कस्टर्ड पाउडर","custard powder"],
+      ["रोज वॉटर","rose water"],["वनीला एसेंस","vanilla essence"]
+    ],
+    "8. सॉस और चटनी": [
+      ["टोमैटो सॉस","tomato sauce"],["ग्रीन चिली सॉस","green chilli sauce"],["चिली सॉस","chilli sauce"],
+      ["सोया सॉस (वेज)","soya sauce"],["पिज्जा सॉस","pizza sauce"],["शेजवान चटनी","schezwan chutney"],
+      ["टोमैटो प्यूरी","tomato puree"]
+    ],
+    "9. चाय और कॉफी": [
+      ["चाय पत्ती","chai patti"],["मसाला चाय","masala chai"],["लेमन टी","lemon tea"],
+      ["ग्रीन टी","green tea"],["कॉफी पाउडर","coffee powder"],["अच्छी चाय","achhi chai"],["कॉफी","coffee"]
+    ],
+    "10. नाश्ते का सामान": [
+      ["ब्रेड","bread"],["ब्राउन ब्रेड","brown bread"],["पाव","pav"],["बन","bun"],
+      ["रस्क","rusk"],["टोस्ट","toast"],["सेवइयां","sewaiyan"],["नूडल्स वेज","noodles veg"],
+      ["मैगी वेज","maggi veg"],["पास्ता","pasta"],["मैकरोनी","macaroni"],["कॉर्न फ्लेक्स","corn flakes"],
+      ["पीनट बटर","peanut butter"],["चॉकलेट स्प्रेड","chocolate spread"],["चीज़ स्प्रेड","cheese spread"],
+      ["भुना चना","bhuna chana"],["रोस्टेड मखाना","roasted makhana"],["भुनी मूंगफली","bhuni moongfali"]
+    ],
+    "11. दूध और डेयरी उत्पाद": [
+      ["दूध","doodh"],["दही","dahi"],["लस्सी","lassi"],["पनीर","paneer"],
+      ["मोजरेला चीज़","mozzarella cheese"],["क्रीम","cream"],["कंडेंस्ड मिल्क","condensed milk"],["खोया / मावा","khoya / mava"]
+    ],
+    "12. ड्राई फ्रूट्स और बीज": [
+      ["बादाम","badam"],["काजू","kaju"],["किशमिश","kishmish"],["मुनक्का","munakka"],
+      ["अखरोट","akhrot"],["पिस्ता","pista"],["छुहारे","chuhare"],["खजूर","khajoor"],
+      ["अंजीर","anjeer"],["चिरौंजी","chiraunji"],["मखाना","makhana"],["अलसी","alsi"]
+    ],
+    "13. पापड़, अचार और चटनी": [
+      ["मूंग दाल पापड़","moong dal papad"],["उड़द दाल पापड़","urad dal papad"],["आलू पापड़","aloo papad"],
+      ["मसाला पापड़","masala papad"],["आम का अचार","aam ka achar"],["नींबू का अचार","nimbu ka achar"],
+      ["मिर्च का अचार","mirch ka achar"],["मिक्स अचार","mix achar"],["गाजर का अचार","gajar ka achar"],
+      ["गोभी का अचार","gobhi ka achar"],["लहसुन का अचार","lehsun ka achar"],["हरी चटनी","hari chutney"],
+      ["पुदीने की चटनी","pudine ki chutney"],["लहसुन की चटनी","lehsun ki chutney"],
+      ["इमली की चटनी","imli ki chutney"],["नारियल चटनी","nariyal chutney"]
+    ],
+    "14. नमकीन, बिस्कुट और मिठाइयां": [
+      ["आलू भुजिया","aloo bhujia"],["मूंग दाल नमकीन","moong dal namkeen"],["चना दाल नमकीन","chana dal namkeen"],
+      ["बेसन सेव","besan sev"],["मिक्स नमकीन","mix namkeen"],["खट्टा मीठा","khatta meetha"],
+      ["मूंगफली नमकीन","moongfali namkeen"],["मठरी","mathri"],["नमकपारे","namakpare"],
+      ["कचौरी","kachori"],["बिस्कुट","biscuit"],["क्रीम बिस्कुट","cream biscuit"],
+      ["ग्लूकोज बिस्कुट","glucose biscuit"],["मैरी बिस्कुट","marie biscuit"],["कुकीज","cookies"],
+      ["वेफर्स","wafers"],["चॉकलेट","chocolate"],["टॉफी","toffee"],["कैंडी","candy"],
+      ["पेठा","petha"],["गजक","gajak"],["रेवड़ी","revdi"],["चिक्की","chikki"],
+      ["लड्डू","laddoo"],["सोनपापड़ी","sonpapdi"]
+    ],
+    "15. सब्जियां": [
+      ["आलू","aloo"],["प्याज","pyaz"],["टमाटर","tamatar"],["लहसुन","lehsun"],["अदरक","adrak"],
+      ["हरी मिर्च","hari mirch"],["नींबू","nimbu"],["खीरा","kheera"],["गाजर","gajar"],["मूली","mooli"],
+      ["चुकंदर","chukandar"],["शिमला मिर्च","shimla mirch"],["पत्ता गोभी","patta gobhi"],
+      ["फूल गोभी","phool gobhi"],["बैंगन","baingan"],["भिंडी","bhindi"],["लौकी","lauki"],
+      ["तोरई","tori"],["टिंडा","tinda"],["करेला","karela"],["कद्दू","kaddu"],["परवल","parwal"],
+      ["अरबी","arbi"],["शकरकंद","shakarkandi"],["पालक","palak"],["सरसों का साग","sarson ka saag"],
+      ["मेथी","methi"],["बथुआ","bathua"],["हरा धनिया","hara dhaniya"],["पुदीना","pudina"],
+      ["हरी प्याज","hari pyaz"],["हरा लहसुन","hara lehsun"],["सोया साग","soya saag"],
+      ["मटर","matar"],["फ्रेंच बीन्स","french beans"],["ग्वार फली","gwar phali"],["मशरूम","mushroom"],
+      ["स्वीट कॉर्न","sweet corn"],["ब्रोकली","broccoli"],["कच्चा केला","kachcha kela"],["कच्चा पपीता","kachcha papita"]
+    ],
+    "16. फल": [
+      ["केला","kela"],["सेब","seb"],["अनार","anar"],["संतरा","santra"],["मौसमी","mausambi"],
+      ["अमरूद","amrud"],["पपीता","papita"],["अंगूर","angoor"],["आम","aam"],["तरबूज","tarbooj"],
+      ["खरबूजा","kharbooja"],["नाशपाती","nashpati"],["चीकू","chikoo"],["कीवी","kiwi"],
+      ["नारियल","nariyal"],["आंवला","amla"]
+    ],
+    "17. झाड़ू, पोछा और घर की सफाई": [
+      ["फूल वाली झाड़ू","phool wali jhadu"],["फाइबर झाड़ू","fiber jhadu"],["वाइपर","wiper"],
+      ["पोछा","pocha"],["पोछे की स्टिक","poche ki stick"],["डस्टर","duster"],["सफाई कपड़ा","safai kapda"],
+      ["डस्टपैन","dustpan"],["स्क्रब ब्रश","scrub brush"],["टॉयलेट ब्रश","toilet brush"],
+      ["बाथरूम ब्रश","bathroom brush"],["जाला साफ करने का ब्रश","jala saaf karne ka brush"],
+      ["डस्टबिन","dustbin"],["कूड़ेदान बैग","kudedan bag"],["फिनाइल","phenyl"],["फ्लोर क्लीनर","floor cleaner"],
+      ["हार्पिक","harpic"],["बाथरूम क्लीनर","bathroom cleaner"],["टाइल्स क्लीनर","tiles cleaner"],
+      ["ग्लास क्लीनर","glass cleaner"],["किचन क्लीनर","kitchen cleaner"],["डीग्रीजर","degreaser"],
+      ["ब्लीचिंग पाउडर","bleaching powder"],["रूम फ्रेशनर","room freshener"],["एयर फ्रेशनर","air freshener"],
+      ["बाथरूम तेजाब","bathroom tezaab"]
+    ],
+    "18. बर्तन धोने का सामान": [
+      ["विम बार","vim bar"],["विम लिक्विड","vim liquid"],["बर्तन पाउडर","bartan powder"],
+      ["स्टील स्क्रबर","steel scrubber"],["हरा स्क्रबर","hara scrubber"],["स्पंज","sponge"],
+      ["बर्तन ब्रश","bartan brush"],["रबर के दस्ताने","rubber ke dastane"]
+    ],
+    "19. कपड़े धोने का सामान": [
+      ["सर्फ पाउडर","surf powder"],["लिक्विड डिटर्जेंट","liquid detergent"],
+      ["कपड़े धोने का साबुन","kapde dhone ka sabun"],["फैब्रिक कंडीशनर","fabric conditioner"],
+      ["नील","neel"],["दाग हटाने वाला लिक्विड","daag hatane wala liquid"]
+    ],
+    "20. नहाने और पर्सनल केयर का सामान": [
+      ["नहाने का साबुन","nahane ka sabun"],["हैंडवॉश","handwash"],["हैंडवॉश रिफिल","handwash refill"],
+      ["शैंपू","shampoo"],["कंडीशनर","conditioner"],["हेयर ऑयल","hair oil"],["बॉडी वॉश","body wash"],
+      ["बॉडी लोशन","body lotion"],["मॉइस्चराइजर","moisturizer"],["फेस वॉश","face wash"],
+      ["फेस क्रीम","face cream"],["टैलकम पाउडर","talcum powder"],["परफ्यूम","perfume"],["लिप बाम","lip balm"],
+      ["मेहंदी","mehndi"],["रुई","rui"],["टिश्यू पेपर","tissue paper"],["लूफा","loofah"],
+      ["वेट वाइप्स","wet wipes"],["कॉटन बड्स","cotton buds"]
+    ],
+    "21. दांतों की सफाई": [
+      ["बड़ों का टूथब्रश","badon ka toothbrush"],["बच्चों का टूथब्रश","bachchon ka toothbrush"],
+      ["टूथपेस्ट","toothpaste"],["हर्बल टूथपेस्ट","herbal toothpaste"],["माउथवॉश","mouthwash"],
+      ["टंग क्लीनर","tongue cleaner"],["डेंटल फ्लॉस","dental floss"]
+    ],
+    "22. महिलाओं की जरूरतें": [
+      ["सैनिटरी पैड","sanitary pad"],["पैंटी लाइनर","panty liner"],["मेंस्ट्रुअल कप","menstrual cup"],
+      ["इंटिमेट वॉश","intimate wash"],["हेयर रिमूवल क्रीम","hair removal cream"],["बिंदी","bindi"],
+      ["सिंदूर","sindoor"],["चूड़ियां","chudiyan"],["हेयर क्लिप","hair clip"],["रबर बैंड","rubber band"],
+      ["सेफ्टी पिन","safety pin"]
+    ],
+    "23. पूजा-पाठ का सामान": [
+      ["अगरबत्ती","agarbatti"],["धूपबत्ती","dhoopbatti"],["धूप","dhoop"],["कपूर","kapoor"],
+      ["रुई की बत्ती","rui ki batti"],["दीया","diya"],["पूजा थाली","pooja thali"],["रोली","roli"],
+      ["कुमकुम","kumkum"],["चंदन","chandan"],["कलावा","kalawa"],["जनेऊ","janeu"],["गंगाजल","gangajal"],
+      ["बताशे","batashe"],["सुपारी","supari"],["फूल","phool"],["माला","mala"],["तुलसी दल","tulsi dal"],
+      ["हवन सामग्री","hawan samagri"],["गोबर के उपले","gobar ke uple"],["आम की लकड़ी","aam ki lakdi"],
+      ["लाल पूजा कपड़ा","lal pooja kapda"],["घंटी","ghanti"],["माचिस","machis"]
+    ],
+    "24. रसोई के छोटे उपकरण": [
+      ["बटर पेपर","butter paper"],["किचन रोल","kitchen roll"],["चाय छन्नी","chai chhanni"],["कुकर की रबर","cooker ki rubber"]
+    ],
+    "25. जूते और मच्छर से बचाव": [
+      ["जूता ब्रश","joota brush"],["मच्छर भगाने की मशीन","machhar bhagane ki machine"],["मच्छर रिफिल","machhar refill"]
+    ],
+    "26. बच्चों का सामान": [
+      ["बेबी सोप","baby soap"],["बेबी शैंपू","baby shampoo"],["बेबी लोशन","baby lotion"],
+      ["बेबी ऑयल","baby oil"],["बेबी पाउडर","baby powder"],["बेबी वाइप्स","baby wipes"],
+      ["डायपर","diaper"],["डायपर रैश क्रीम","diaper rash cream"],["बेबी टूथब्रश","baby toothbrush"],
+      ["बेबी टूथपेस्ट","baby toothpaste"],["फीडिंग बोतल","feeding bottle"],["बोतल ब्रश","bottle brush"],
+      ["बेबी टॉवल","baby towel"],["बेबी डिटर्जेंट","baby detergent"]
+    ],
+    "27. मेहमानों के लिए सामान": [
+      ["नमकीन","namkeen"],["मिठाई","mithai"],["ड्राई फ्रूट्स","dry fruits"],["कोल्ड ड्रिंक","cold drink"],
+      ["जूस","juice"],["पानी की बोतलें","paani ki bottle"],["डिस्पोजेबल ग्लास","disposable glass"],
+      ["पेपर प्लेट","paper plate"],["नैपकिन","napkin"]
+    ],
+    "28. शरबत और गर्मियों का सामान": [["शरबत","sharbat"],["रूह अफजा","rooh afza"],["जलजीरा","jaljeera"],["सत्तू","sattu"]],
+    "29. त्योहारों और सजावट का सामान": [
+      ["दीये","diye"],["रंगोली रंग","rangoli rang"],["सजावटी लाइट","sajawati light"],["तोरण","toran"],
+      ["बंदनवार","bandanwar"],["मिठाई बनाने की सामग्री","mithai banane ki samagri"],["केसर","kesar"],
+      ["गिफ्ट रैपिंग पेपर","gift wrapping paper"],["गिफ्ट बैग","gift bag"],["राखी","rakhi"],
+      ["होली के रंग","holi ke rang"],["गोंद","gond"]
+    ],
+    "30. विशेष सफाई का सामान": [["बाथरूम तेजाब","bathroom tezaab"]]
+  };
+
+  var checked = {}, favorites = {}, editList = [], editMode = false;
+  var quantities = {}; 
+  var soundOn = true, searchQuery = '', themeIndex = 0;
+  var themes = ['dark','light','vintage'], themeIcons = ['🌙','☀️','🏺'];
+  var audioCtx = null, wasComplete = false;
+  var UNITS = ['KG','GM','Nos','लीटर','एमएल','पैकेट','बोतल','दर्जन','थैली','डिब्बा'];
+  
+  var QUICK_QTYS = {
+    'KG': [1, 2, 3, 5, 10],
+    'GM': [10, 50, 100, 200, 500],
+    'Nos': [1, 2, 3, 4, 6, 12],
+    'लीटर': [1, 2, 3, 5],
+    'एमएल': [50, 100, 200, 500],
+    'पैकेट': [1, 2, 5, 10],
+    'बोतल': [1, 2, 4, 6],
+    'दर्जन': [1, 2, 3, 4],
+    'थैली': [1, 2, 3, 5],
+    'डिब्बा': [1, 2, 3]
+  };
+
+  function toast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._tid); t._tid = setTimeout(function(){ t.classList.remove('show'); }, 2200);
+  }
+  function idFor(cat, hi){ return cat + '::' + hi; }
+  function cssEscape(s){ return String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"'); }
+
+  function guessUnit(name){
+    if (/दाल|मसाला|पाउडर|बेसन|सूजी|मेथी|जीरा|धनिया|हल्दी|मिर्च|अमचूर|गरम मसाला|चाट मसाला|साबुत|खसखस|सौंफ|लौंग|इलायची|दालचीनी|तेजपत्ता|जावित्री|जायफल|अनारदाना|सोंठ|कुट्टू|सिंघाड़े|ओट्स|दलिया|पोहा|सेवइयां|नमकीन|भुजिया|सेव|चना|मूंग|उड़द|मसूर|अरहर|राजमा|सोयाबीन/.test(name)) return 'GM';
+    if (/दूध|तेल|लस्सी|जूस|शरबत|सिरका|सॉस|क्रीम|अचार|चटनी/.test(name)) return 'लीटर';
+    if (/शैंपू|हैंडवॉश|डिटर्जेंट|फिनाइल|हार्पिक|क्लीनर|तेजाब|परफ्यूम|बॉडी वॉश|फेस वॉश|लोशन/.test(name)) return 'बोतल';
+    if (/साबुन|टूथब्रश|टूथपेस्ट|स्पंज|स्क्रबर|ब्रश|डस्टर|कूड़ेदान|ब्रेड|पाव|बन|रस्क|नूडल्स|मैगी|पास्ता|मैकरोनी|केला|सेब|अनार|संतरा|मौसमी|अमरूद|पपीता|अंगूर|आम|तरबूज|खरबूजा|नाशपाती|चीकू|कीवी|नारियल|आंवला|नींबू|खीरा|टमाटर/.test(name)) return 'Nos';
+    if (/आटा|चावल|चीनी|नमक|खांड|बूरा|गुड़|मिश्री|घी|मक्खन|बादाम|काजू|किशमिश|मुनक्का|अखरोट|पिस्ता|खजूर|अंजीर|मखाना|अलसी|पापड़|बिस्कुट|कॉर्न फ्लेक्स|केसर/.test(name)) return 'KG';
+    return 'Nos';
+  }
+
+  function spawnFloaters(){
+    var emojis = ['🏠','🥛','🍚','🍎','🧴','🧼','🍞','🥘','🫖','🌾','🍯','🧈','🥔','🍅','🧅','🥕','🍋','🥥','🫙','🍌','🧄','🍇','🧀','🌽','🥦','🥭','🍊','🍐','🍑','🥝'];
+    var c = document.getElementById('floatBg'); if (!c) return;
+    var w = window.innerWidth, h = window.innerHeight;
+    var n = Math.min(24, Math.max(12, Math.round((w*h)/75000)));
+    for (var i=0;i<n;i++){
+      var s = document.createElement('span');
+      s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      s.style.fontSize = (20+Math.random()*26)+'px';
+      s.style.opacity = (0.07+Math.random()*0.13).toFixed(2);
+      s.style.left = (Math.random()*100)+'%';
+      s.style.top = (Math.random()*100)+'%';
+      if (Math.random()<0.3){s.style.animationName='driftAcross';s.style.animationDuration=(20+Math.random()*18)+'s';s.style.animationDelay=(-Math.random()*30)+'s';}
+      else{s.style.animationName='floatAround';s.style.animationDuration=(16+Math.random()*20)+'s';s.style.animationDelay=(-Math.random()*20)+'s';}
+      c.appendChild(s);
+    }
+  }
+  spawnFloaters();
+
+  function ensureAudio(){ if (!audioCtx){ try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){audioCtx=null;} } if (audioCtx && audioCtx.state==='suspended') audioCtx.resume(); }
+  function playSound(type){
+    if (!soundOn) return; ensureAudio(); if (!audioCtx) return;
+    try {
+      var now = audioCtx.currentTime;
+      function tone(f,d,v,w,dl){var o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=w||'sine';o.connect(g);g.connect(audioCtx.destination);var t=now+(dl||0);o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+0.01);g.gain.exponentialRampToValueAtTime(0.001,t+d);o.start(t);o.stop(t+d+0.02);}
+      if(type==='check'){tone(880,0.12,0.12);tone(1320,0.1,0.08,'sine',0.06);}
+      else if(type==='uncheck'){tone(660,0.1,0.09);}
+      else if(type==='click'){tone(520,0.07,0.07,'triangle');}
+      else if(type==='success'){tone(523.25,0.15,0.12,'sine',0);tone(659.25,0.15,0.12,'sine',0.1);tone(783.99,0.15,0.12,'sine',0.2);tone(1046.5,0.3,0.14,'sine',0.3);}
+      else if(type==='reset'){tone(440,0.1,0.1);tone(330,0.15,0.09,'sine',0.08);}
+    } catch(e){}
+  }
+
+  setTimeout(function(){var s=document.getElementById('splash');if(s)s.classList.add('hide');},1000);
+
+  document.getElementById('soundToggle').addEventListener('click', function(){
+    soundOn = !soundOn;
+    document.getElementById('soundIcon').textContent = soundOn?'🔊':'🔇';
+    if (soundOn) { ensureAudio(); playSound('click'); }
+    toast(soundOn?'🔊 Sound On':'🔇 Sound Off');
+  });
+  document.getElementById('themeToggle').addEventListener('click', function(){
+    document.body.classList.remove('theme-'+themes[themeIndex]);
+    themeIndex = (themeIndex+1)%themes.length;
+    if (themes[themeIndex]!=='dark') document.body.classList.add('theme-'+themes[themeIndex]);
+    document.getElementById('themeIcon').textContent = themeIcons[themeIndex];
+    playSound('click');
+  });
+
+  function renderItemRow(id, hi, en, isFav){
+    var safeId = id.replace(/"/g,'&quot;');
+    var isC = !!checked[id];
+    var starClass = isFav?' starred':'';
+    var starIcon = isFav?'★':'☆';
+    return '<div class="item-row'+(isC?' done':'')+'" data-id="'+safeId+'">'+
+           '<label class="item"><input type="checkbox" '+(isC?'checked':'')+' data-id="'+safeId+'"><span><span class="hi">'+hi+'</span> / <span class="en">'+(en||'')+'</span></span></label>'+
+           '<button type="button" class="star-btn'+starClass+'" data-id="'+safeId+'">'+starIcon+'</button></div>';
+  }
+
+  function build(){
+    var listEl = document.getElementById('list');
+    var html = '<div class="cat favorites-cat" id="favCat" style="display:none;"><h2><span class="cat-title"><span class="chev">▼</span> ⭐ पसंदीदा</span></h2><div class="items" id="favItems"></div></div>';
+    var total = 0;
+    for (var cat in data) {
+      var items = data[cat];
+      total += items.length;
+      var safeCatAttr = cat.replace(/"/g,'&quot;');
+      html += '<div class="cat" data-cat="'+safeCatAttr+'"><h2><span class="cat-title"><span class="chev">▼</span> '+cat+'<span class="cat-badge" data-cat="'+safeCatAttr+'">0/'+items.length+'</span></span><label class="cat-check"><input type="checkbox" class="cat-cb" data-cat="'+safeCatAttr+'"> सभी</label></h2><div class="items">';
+      items.forEach(function(pair){ html += renderItemRow(idFor(cat,pair[0]), pair[0], pair[1]||'', false); });
+      html += '</div></div>';
+    }
+    listEl.innerHTML = html;
+    document.getElementById('totalNum').textContent = total;
+    updateCount();
+    listEl.querySelectorAll('.cat h2').forEach(function(h){
+      h.addEventListener('click', function(e){
+        if (e.target.closest('.cat-check')) return;
+        h.closest('.cat').classList.toggle('collapsed');
+      });
+    });
+  }
+
+  function renderFavorites(){
+    var favIds = Object.keys(favorites).filter(function(k){return favorites[k];});
+    var favCat = document.getElementById('favCat'), favItems = document.getElementById('favItems');
+    if (!favCat || !favItems) return;
+    if (favIds.length === 0) { favCat.style.display = 'none'; favItems.innerHTML = ''; return; }
+    favCat.style.display = '';
+    var html = '';
+    favIds.forEach(function(id){
+      var parts = id.split('::');
+      var cat = parts[0], hi = parts[1];
+      var en = '';
+      var catItems = data[cat] || [];
+      for (var i=0;i<catItems.length;i++) if (catItems[i][0]===hi) { en = catItems[i][1]||''; break; }
+      html += renderItemRow(id, hi, en, true);
+    });
+    favItems.innerHTML = html;
+    applySearch();
+  }
+
+  function syncRows(id){
+    var isC = !!checked[id];
+    document.querySelectorAll('.item-row[data-id="'+cssEscape(id)+'"]').forEach(function(row){
+      var cb = row.querySelector('input[type=checkbox]');
+      if (cb) cb.checked = isC;
+      if (isC) row.classList.add('done'); else row.classList.remove('done');
+    });
+  }
+  function updateBadge(cat){
+    var b = document.querySelector('.cat-badge[data-cat="'+cssEscape(cat)+'"]'); if (!b) return;
+    var items = data[cat]||[], done = 0;
+    items.forEach(function(p){ if (checked[idFor(cat,p[0])]) done++; });
+    b.textContent = done+'/'+items.length;
+    if (done===items.length && items.length>0) b.classList.add('complete'); else b.classList.remove('complete');
+    var m = document.querySelector('input.cat-cb[data-cat="'+cssEscape(cat)+'"]');
+    if (m) {
+      if (done===0) { m.checked=false; m.indeterminate=false; }
+      else if (done===items.length) { m.checked=true; m.indeterminate=false; }
+      else { m.checked=false; m.indeterminate=true; }
+    }
+  }
+  function updateCount(){
+    var total = parseInt(document.getElementById('totalNum').textContent)||0;
+    var done = 0; for (var k in checked) if (checked[k]) done++;
+    document.getElementById('doneNum').textContent = done;
+    var pct = total>0?(done/total*100):0;
+    document.getElementById('progressFill').style.width = pct+'%';
+    if (done>0 && done===total && !wasComplete) { wasComplete=true; playSound('success'); launchConfetti(); }
+    else if (done<total) wasComplete=false;
+  }
+  function launchConfetti(){
+    var colors = ['#f6d365','#fda085','#ff6a88','#43e97b','#38f9d7','#a18cd1','#fbc2eb'];
+    for (var i=0;i<100;i++){
+      var p = document.createElement('div'); p.className='confetti';
+      p.style.left = Math.random()*100+'%';
+      p.style.background = colors[Math.floor(Math.random()*colors.length)];
+      p.style.animationDelay = (Math.random()*0.6)+'s';
+      p.style.animationDuration = (2.2+Math.random()*2)+'s';
+      p.style.width = (6+Math.random()*6)+'px'; p.style.height = (10+Math.random()*8)+'px';
+      document.body.appendChild(p);
+      (function(el){setTimeout(function(){if(el.parentNode)el.remove();},5000);})(p);
+    }
+  }
+  function spawnSparkle(x,y){
+    for (var i=0;i<6;i++){
+      var s = document.createElement('div'); s.className='sparkle';
+      s.style.left=x+'px'; s.style.top=y+'px';
+      var a = (Math.PI*2*i)/6+Math.random()*0.5, d = 20+Math.random()*25;
+      s.style.setProperty('--tx',(Math.cos(a)*d)+'px'); s.style.setProperty('--ty',(Math.sin(a)*d)+'px');
+      document.body.appendChild(s);
+      (function(el){setTimeout(function(){if(el.parentNode)el.remove();},800);})(s);
+    }
+  }
+
+  document.getElementById('list').addEventListener('change', function(e){
+    if (!e.target) return;
+    if (e.target.classList.contains('cat-cb')) {
+      var cat = e.target.getAttribute('data-cat'), isOn = !!e.target.checked;
+      var items = data[cat]||[], container = e.target.closest('.cat');
+      items.forEach(function(p){ var id=idFor(cat,p[0]); if (isOn) checked[id]=true; else delete checked[id]; });
+      if (container) container.querySelectorAll('.item-row').forEach(function(row){
+        if (isOn) row.classList.add('done'); else row.classList.remove('done');
+        var cb = row.querySelector('input[type=checkbox]'); if (cb) cb.checked = isOn;
+      });
+      e.target.indeterminate = false;
+      updateBadge(cat); updateCount(); playSound(isOn?'check':'uncheck');
+      return;
+    }
+    if (e.target.type === 'checkbox') {
+      var id = e.target.getAttribute('data-id'); if (!id) return;
+      var isC = e.target.checked;
+      if (isC) checked[id]=true; else delete checked[id];
+      syncRows(id);
+      var parts = id.split('::'); if (parts.length>=2) updateBadge(parts[0]);
+      updateCount(); playSound(isC?'check':'uncheck');
+      if (isC) { var r = e.target.getBoundingClientRect(); spawnSparkle(r.left+r.width/2, r.top+r.height/2); }
+    }
+  });
+  document.getElementById('list').addEventListener('click', function(e){
+    var star = e.target.closest('.star-btn'); if (!star) return;
+    e.preventDefault(); e.stopPropagation();
+    var id = star.getAttribute('data-id');
+    if (favorites[id]) delete favorites[id]; else favorites[id]=true;
+    document.querySelectorAll('.star-btn[data-id="'+cssEscape(id)+'"]').forEach(function(b){
+      if (favorites[id]) { b.textContent='★'; b.classList.add('starred'); }
+      else { b.textContent='☆'; b.classList.remove('starred'); }
+    });
+    renderFavorites(); playSound('click');
+  });
+
+  function applySearch(){
+    var q = searchQuery.trim().toLowerCase();
+    document.querySelectorAll('#list .cat').forEach(function(cat){
+      var rows = cat.querySelectorAll('.item-row'), visible = 0;
+      rows.forEach(function(row){
+        var txt = row.querySelector('.item span').textContent.toLowerCase();
+        var match = !q || txt.indexOf(q) !== -1;
+        row.style.display = match?'':'none';
+        if (match) visible++;
+      });
+      if (rows.length>0 && visible===0) cat.style.display='none'; else cat.style.display='';
+    });
+  }
+  var sTimer;
+  document.getElementById('searchInput').addEventListener('input', function(e){
+    searchQuery = e.target.value;
+    document.getElementById('searchClear').style.display = searchQuery?'':'none';
+    clearTimeout(sTimer); sTimer = setTimeout(applySearch, 120);
+  });
+  document.getElementById('searchClear').addEventListener('click', function(){
+    document.getElementById('searchInput').value=''; searchQuery=''; this.style.display='none'; applySearch();
+  });
+
+  function resetAll(){
+    if (!confirm('सभी टिक हटाने हैं?')) return;
+    checked = {}; quantities = {};
+    document.querySelectorAll('.item-row').forEach(function(row){
+      row.classList.remove('done');
+      var cb = row.querySelector('input[type=checkbox]'); if (cb) cb.checked=false;
+    });
+    document.querySelectorAll('input.cat-cb').forEach(function(cb){cb.checked=false;cb.indeterminate=false;});
+    document.querySelectorAll('.cat-badge').forEach(function(b){
+      var cat=b.getAttribute('data-cat'); var t=(data[cat]||[]).length;
+      b.textContent='0/'+t; b.classList.remove('complete');
+    });
+    updateCount(); if (editMode) renderEditList(); playSound('reset');
+    toast('🧹 सभी टिक और मात्रा हटा दिए');
+  }
+
+  function getTickedWithId(){
+    var r = [];
+    for (var cat in data) data[cat].forEach(function(p){
+      var id = idFor(cat, p[0]);
+      if (checked[id]) r.push({ id: id, hi: p[0], en: p[1] || '' });
+    });
+    return r;
+  }
+
+  function openQuantityModal(){
+    var ticked = getTickedWithId();
+    if (ticked.length === 0) { alert('पहले कुछ सामान टिक करें, फिर Print दबाएं।'); return; }
+    renderQuantityList(ticked);
+    document.getElementById('qtyModal').classList.add('show');
+    playSound('click');
+  }
+  function closeQtyModal(){
+    document.getElementById('qtyModal').classList.remove('show');
+    playSound('click');
+  }
+
+  function renderQuantityList(ticked){
+    var box = document.getElementById('qtyList');
+    var html = '';
+    ticked.forEach(function(item, idx){
+      if (!quantities[item.id]) {
+        quantities[item.id] = { qty: '', unit: guessUnit(item.hi) };
+      }
+      var q = quantities[item.id];
+      var safeId = item.id.replace(/"/g,'&quot;');
+      
+      var unitBtns = UNITS.map(function(u){
+        var active = (u === q.unit) ? ' active' : '';
+        return '<button type="button" class="unit-btn'+active+'" data-unit="'+u+'">'+u+'</button>';
+      }).join('');
+      
+      var qList = QUICK_QTYS[q.unit] || [1, 2, 3];
+      var quickBtns = qList.map(function(qv){
+        var active = (String(qv) === String(q.qty)) ? ' active' : '';
+        return '<button type="button" class="qty-pill'+active+'" data-qty="'+qv+'">'+qv+'</button>';
+      }).join('');
+
+      html += '<div class="qty-row" data-id="' + safeId + '">' +
+                '<div class="qty-row-top">' +
+                  '<span class="qty-num">' + (idx+1) + '.</span>' +
+                  '<span class="qty-name"><span class="hi">' + item.hi + '</span> <span class="en">/ ' + item.en + '</span></span>' +
+                '</div>' +
+                '<div class="unit-btns">' + unitBtns + '</div>' +
+                '<div class="qty-bottom">' +
+                  '<input type="text" class="qty-input" data-id="' + safeId + '" value="' + (q.qty||'').replace(/"/g,'&quot;') + '" placeholder="मात्रा" inputmode="decimal">' +
+                  '<div class="quick-qty">' + quickBtns + '</div>' +
+                '</div>' +
+              '</div>';
+    });
+    box.innerHTML = html;
+  }
+
+  document.getElementById('qtyList').addEventListener('input', function(e){
+    if (e.target.classList.contains('qty-input')) {
+      var id = e.target.getAttribute('data-id');
+      if (!quantities[id]) quantities[id] = { qty: '', unit: 'KG' };
+      quantities[id].qty = e.target.value;
+      
+      var row = e.target.closest('.qty-row');
+      row.querySelectorAll('.qty-pill').forEach(function(p){
+        if (String(p.getAttribute('data-qty')) === String(e.target.value)) p.classList.add('active');
+        else p.classList.remove('active');
+      });
+    }
+  });
+
+  document.getElementById('qtyList').addEventListener('click', function(e){
+    var row = e.target.closest('.qty-row');
+    if (!row) return;
+    var id = row.getAttribute('data-id');
+    if (!quantities[id]) quantities[id] = { qty: '', unit: 'KG' };
+
+    if (e.target.classList.contains('unit-btn')) {
+      var newUnit = e.target.getAttribute('data-unit');
+      quantities[id].unit = newUnit;
+      
+      row.querySelectorAll('.unit-btn').forEach(function(b){
+        if (b === e.target) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+
+      var qList = QUICK_QTYS[newUnit] || [1, 2, 3];
+      var quickBox = row.querySelector('.quick-qty');
+      var quickHtml = qList.map(function(qv){
+        var active = (String(qv) === String(quantities[id].qty)) ? ' active' : '';
+        return '<button type="button" class="qty-pill'+active+'" data-qty="'+qv+'">'+qv+'</button>';
+      }).join('');
+      quickBox.innerHTML = quickHtml;
+      playSound('click');
+      return;
+    }
+
+    if (e.target.classList.contains('qty-pill')) {
+      var qtyVal = e.target.getAttribute('data-qty');
+      quantities[id].qty = qtyVal;
+      row.querySelector('.qty-input').value = qtyVal;
+      row.querySelectorAll('.qty-pill').forEach(function(p){
+        if (p === e.target) p.classList.add('active');
+        else p.classList.remove('active');
+      });
+      playSound('check');
+    }
+  });
+
+  function buildQtyText(){
+    var ticked = getTickedWithId();
+    var list = [];
+    ticked.forEach(function(item){
+      var q = quantities[item.id] || {};
+      var qtyTrim = (q.qty || '').toString().trim();
+      if (qtyTrim) {
+        list.push(item.hi + ' - ' + qtyTrim + ' ' + (q.unit || ''));
+      } else {
+        list.push(item.hi);
+      }
+    });
+    return list;
+  }
+
+  function fillPrintList(items){
+    var ol = document.getElementById('printList'); ol.innerHTML='';
+    items.forEach(function(it){
+      var li = document.createElement('li');
+      li.textContent = Array.isArray(it) ? (it[0] || '') : it;
+      ol.appendChild(li);
+    });
+    var d = new Date();
+    document.getElementById('pDate').textContent = 'तारीख: '+d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()+' • कुल '+items.length+' सामान';
+  }
+
+  function doPrintWithQty(){
+    var list = buildQtyText();
+    if (list.length === 0) { alert('कोई टिक किया सामान नहीं है।'); return; }
+    editList = list.slice();
+    fillPrintList(list.map(function(n){ return [n]; }));
+    setTimeout(function(){
+      window.print();
+      setTimeout(function(){
+        closeQtyModal();
+        openEditPanel();
+      }, 300);
+    }, 50);
+  }
+
+  function shareQty(){
+    var list = buildQtyText();
+    if (list.length === 0) { alert('कोई सामान नहीं है।'); return; }
+    var t = '🛒 खरीदारी सूची:\n\n';
+    list.forEach(function(n,i){ t += (i+1)+'. '+n+'\n'; });
+    t += '\n(कुल '+list.length+' सामान)';
+    window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');
+    playSound('click');
+  }
+  function showQtyQR(){
+    var list = buildQtyText();
+    if (list.length === 0) { alert('कोई सामान नहीं है।'); return; }
+    var t = '🛒 खरीदारी सूची:\n\n';
+    list.forEach(function(n,i){ t += (i+1)+'. '+n+'\n'; });
+    t += '\n(कुल '+list.length+' सामान)';
+    document.getElementById('qrImage').src = 'https://api.qrserver.com/v1/create-qr-code/?size=350x350&data='+encodeURIComponent(t);
+    document.getElementById('qrModal').classList.add('show');
+    playSound('click');
+  }
+
+  function openEditPanel(){
+    editMode = true;
+    document.getElementById('editPanel').style.display = 'block';
+    renderEditList();
+    document.getElementById('editPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function renderEditList(){
+    var box = document.getElementById('editList');
+    if (editList.length===0) { box.innerHTML='<div style="font-size:12px;color:#cbb7e2;">लिस्ट खाली है।</div>'; return; }
+    box.innerHTML = editList.map(function(n,i){
+      return '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 8px;"><span style="color:#f6d365;font-size:12px;width:22px;text-align:right;">'+(i+1)+'.</span><input type="text" value="'+String(n).replace(/"/g,'&quot;')+'" data-idx="'+i+'" style="flex:1;padding:6px 8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:inherit;border-radius:6px;font-family:inherit;font-size:13px;"><button class="btn-x" data-del="'+i+'">❌</button></div>';
+    }).join('');
+  }
+  document.getElementById('editList').addEventListener('input', function(e){
+    if (e.target.type==='text'){ var i=parseInt(e.target.getAttribute('data-idx'),10); if (!isNaN(i) && editList[i]!==undefined) editList[i]=e.target.value; }
+  });
+  document.getElementById('editList').addEventListener('click', function(e){
+    var d = e.target.getAttribute('data-del');
+    if (d!==null){ var i=parseInt(d,10); editList.splice(i,1); renderEditList(); playSound('click'); }
+  });
+  document.getElementById('btnAddItem').addEventListener('click', function(){
+    var inp=document.getElementById('newItemInput'); var v=(inp.value||'').trim();
+    if (!v){inp.focus();return;} editList.push(v); inp.value=''; renderEditList(); inp.focus(); playSound('check');
+  });
+  document.getElementById('newItemInput').addEventListener('keydown', function(e){ if (e.key==='Enter') document.getElementById('btnAddItem').click(); });
+  document.getElementById('btnCloseEdit').addEventListener('click', function(){ editMode=false; document.getElementById('editPanel').style.display='none'; playSound('click'); });
+  document.getElementById('btnPrintFromEdit').addEventListener('click', function(){
+    if (editList.length===0) { alert('लिस्ट खाली है'); return; }
+    playSound('click');
+    fillPrintList(editList.map(function(n){ return [n]; }));
+    setTimeout(function(){ window.print(); }, 50);
+  });
+
+  document.getElementById('btnPrint').addEventListener('click', function(){
+    playSound('click');
+    openQuantityModal();
+  });
+  document.getElementById('btnReset').addEventListener('click', resetAll);
+
+  document.getElementById('btnCloseQty').addEventListener('click', closeQtyModal);
+  document.getElementById('btnQtyPrint').addEventListener('click', doPrintWithQty);
+  document.getElementById('btnQtyShare').addEventListener('click', shareQty);
+  document.getElementById('btnQtyQR').addEventListener('click', showQtyQR);
+
+  function addRipple(btn,e){
+    var r = btn.getBoundingClientRect(), size = Math.max(r.width,r.height);
+    var x = e.clientX-r.left-size/2, y = e.clientY-r.top-size/2;
+    var rp = document.createElement('span'); rp.className='ripple';
+    rp.style.width=rp.style.height=size+'px'; rp.style.left=x+'px'; rp.style.top=y+'px';
+    btn.appendChild(rp);
+    setTimeout(function(){if(rp.parentNode)rp.remove();},700);
+  }
+  document.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(e){ addRipple(this,e); }); });
+
+  var scrollBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', function(){ if (window.scrollY>300) scrollBtn.classList.add('visible'); else scrollBtn.classList.remove('visible'); });
+  scrollBtn.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); playSound('click'); });
+
+  document.body.addEventListener('click', ensureAudio, {once:true});
+  var rTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(rTimer);
+    rTimer = setTimeout(function(){ var c=document.getElementById('floatBg'); if(c)c.innerHTML=''; spawnFloaters(); },400);
+  });
+
+  build();
+})();
+</script>
+</body>
+</html>
