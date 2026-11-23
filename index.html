@@ -69,6 +69,13 @@
   .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.6); transform: scale(0); animation: rippleAnim 0.65s ease-out; pointer-events: none; }
   @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
+  /* Manual Add Box */
+  .manual-add-box { background: rgba(246,211,101,0.08); border: 2px dashed rgba(246,211,101,0.4); border-radius: 18px; padding: 14px; margin-bottom: 18px; display: flex; gap: 10px; align-items: center; animation: cardIn 0.4s ease; }
+  .manual-add-box input { flex: 1; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: inherit; font-family: inherit; font-size: 14px; outline: none; }
+  .manual-add-box input:focus { border-color: #f6d365; box-shadow: 0 0 0 3px rgba(246,211,101,0.15); }
+  body.theme-light .manual-add-box { background: rgba(255,255,255,0.5); border-color: #f6d365; }
+  body.theme-light .manual-add-box input { background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.15); color: #2a1a40; }
+
   .cat { background: linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; margin-bottom: 14px; overflow: hidden; backdrop-filter: blur(14px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); animation: cardIn 0.5s cubic-bezier(.2,.9,.3,1.15) both; }
   body.theme-light .cat { background: rgba(255,255,255,0.85); }
   @keyframes cardIn { from{opacity:0;transform:translateY(20px) scale(0.98)} to{opacity:1;transform:translateY(0) scale(1)} }
@@ -186,7 +193,7 @@
     @page { size: A4; margin: 10mm; }
     body { background: #fff !important; padding: 0 !important; color: #000 !important; animation: none !important; }
     .wrap { max-width: none; }
-    .toolbar, .header, .ram-ram, #list, .float-bg, #splash, .confetti, .sparkle, #scrollTop, .search-bar, #qrModal, #toast, #editPanel, #qtyModal { display: none !important; }
+    .toolbar, .header, .ram-ram, #list, .float-bg, #splash, .confetti, .sparkle, #scrollTop, .search-bar, #qrModal, #toast, #editPanel, #qtyModal, .manual-add-box { display: none !important; }
     #printArea { display: block !important; color: #000 !important; }
     #printArea .p-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: bold; text-align: center; margin: 0 0 4px; padding-bottom: 6px; border-bottom: 2px solid #333; color: #000; }
     #printArea .p-date { font-size: 10px; text-align: right; margin: 0 0 10px; color: #444; }
@@ -255,7 +262,6 @@
 
 <script>
 (function(){
-  // Service Worker for PWA (Will work only on HTTPS, but registering it via Blob helps some browsers recognize it as PWA-ready)
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
       const swCode = "self.addEventListener('install', (e) => { self.skipWaiting(); }); self.addEventListener('activate', (e) => { self.clients.claim(); }); self.addEventListener('fetch', (e) => { e.respondWith(fetch(e.request).catch(() => new Response('Offline'))); });";
@@ -268,6 +274,7 @@
   }
 
   var data = {
+    "0. 📝 मेरी अपनी लिस्ट": [],
     "1. आटा, अनाज और सूखा राशन": [
       ["मल्टीग्रेन आटा","multigrain ata"],["मक्की का आटा","makki ka ata"],["गेहूं का आटा","gehun ka ata"],
       ["बेसन","besan"],["सूजी","suji"],["ओट्स","oats"],["सिंघाड़े का आटा","singhade ka ata"],
@@ -448,8 +455,7 @@
       ["बंदनवार","bandanwar"],["मिठाई बनाने की सामग्री","mithai banane ki samagri"],["केसर","kesar"],
       ["गिफ्ट रैपिंग पेपर","gift wrapping paper"],["गिफ्ट बैग","gift bag"],["राखी","rakhi"],
       ["होली के रंग","holi ke rang"],["गोंद","gond"]
-    ],
-    "30. विशेष सफाई का सामान": [["बाथरूम तेजाब","bathroom tezaab"]]
+    ]
   };
 
   var checked = {}, favorites = {}, editList = [], editMode = false;
@@ -550,19 +556,36 @@
 
   function build(){
     var listEl = document.getElementById('list');
+    
+    // Manual input box HTML
+    var manualHtml = `
+      <div class="manual-add-box">
+        <input type="text" id="manualItemInput" placeholder="यहाँ अपना सामान लिखें (जैसे: मैगी, चॉकलेट)...">
+        <button id="btnManualAdd" class="btn-add" style="padding: 10px 18px; font-size: 14px; white-space: nowrap;">+ जोड़ें</button>
+      </div>
+    `;
+
     var html = '<div class="cat favorites-cat" id="favCat" style="display:none;"><h2><span class="cat-title"><span class="chev">▼</span> ⭐ पसंदीदा</span></h2><div class="items" id="favItems"></div></div>';
     var total = 0;
     for (var cat in data) {
       var items = data[cat];
+      
+      // Skip manual category if empty, but ALWAYS render the category header if it has items
+      if (cat === "0. 📝 मेरी अपनी लिस्ट" && items.length === 0) continue;
+
       total += items.length;
       var safeCatAttr = cat.replace(/"/g,'&quot;');
-      html += '<div class="cat" data-cat="'+safeCatAttr+'"><h2><span class="cat-title"><span class="chev">▼</span> '+cat+'<span class="cat-badge" data-cat="'+safeCatAttr+'">0/'+items.length+'</span></span><label class="cat-check"><input type="checkbox" class="cat-cb" data-cat="'+safeCatAttr+'"> सभी</label></h2><div class="items">';
+      var displayCatName = cat === "0. 📝 मेरी अपनी लिस्ट" ? "0. 📝 मेरी अपनी लिस्ट (Custom)" : cat;
+      
+      html += '<div class="cat" data-cat="'+safeCatAttr+'"><h2><span class="cat-title"><span class="chev">▼</span> '+displayCatName+'<span class="cat-badge" data-cat="'+safeCatAttr+'">0/'+items.length+'</span></span><label class="cat-check"><input type="checkbox" class="cat-cb" data-cat="'+safeCatAttr+'"> सभी</label></h2><div class="items">';
       items.forEach(function(pair){ html += renderItemRow(idFor(cat,pair[0]), pair[0], pair[1]||'', false); });
       html += '</div></div>';
     }
-    listEl.innerHTML = html;
+    
+    listEl.innerHTML = manualHtml + html;
     document.getElementById('totalNum').textContent = total;
     updateCount();
+    
     listEl.querySelectorAll('.cat h2').forEach(function(h){
       h.addEventListener('click', function(e){
         if (e.target.closest('.cat-check')) return;
@@ -643,6 +666,29 @@
       (function(el){setTimeout(function(){if(el.parentNode)el.remove();},800);})(s);
     }
   }
+
+  // Handle manual add button
+  document.getElementById('list').addEventListener('click', function(e){
+    if (e.target.id === 'btnManualAdd') {
+      var input = document.getElementById('manualItemInput');
+      var val = input.value.trim();
+      if (val) {
+        data["0. 📝 मेरी अपनी लिस्ट"].push([val, ""]);
+        input.value = '';
+        build(); // re-render list
+        renderFavorites();
+        applySearch();
+        playSound('check');
+      }
+    }
+  });
+
+  // Handle Enter key in manual input
+  document.getElementById('list').addEventListener('keydown', function(e){
+    if (e.target.id === 'manualItemInput' && e.key === 'Enter') {
+      document.getElementById('btnManualAdd').click();
+    }
+  });
 
   document.getElementById('list').addEventListener('change', function(e){
     if (!e.target) return;
